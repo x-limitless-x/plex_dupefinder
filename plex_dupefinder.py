@@ -72,8 +72,10 @@ def get_section_type(plex_section_name):
 
 
 # Add this function to check for "Plex Versions" path
+
+# Modify this function to check if "Plex Versions" is in the file path
 def is_plex_versions_path(file_path):
-    return cfg.get('PLEX_VERSIONS_PATH', '') in file_path
+    return 'Plex Versions' in file_path
 def get_score(media_info):
     score = 0
     # score audio codec
