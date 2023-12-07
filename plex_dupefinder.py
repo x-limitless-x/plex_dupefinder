@@ -215,6 +215,7 @@ def delete_item(show_key, media_id):
         print("\t\tError deleting media item: %r" % media_id)
 
 
+
 ############################################################
 # MISC METHODS
 ############################################################
@@ -449,11 +450,7 @@ if __name__ == "__main__":
                         keep_score = part_info['score']
                         keep_id = media_id
 
-            
-            # Display information about the media items
-            headers, data = build_tabulated(parts, {i+1: pid for i, pid in enumerate(parts)})
-            print(tabulate(data, headers=headers))
-if keep_id:
+            if keep_id:
                 # delete other items
                 write_decision(title=item)
                 for media_id, part_info in parts.items():
