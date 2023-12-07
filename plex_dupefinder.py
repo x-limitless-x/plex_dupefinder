@@ -125,7 +125,7 @@ def get_score(media_info):
     # Prioritize "Plex Versions" path
     if any(is_plex_versions_path(file) for file in media_info['file']):
         score += 100000  # Add a very high score to prioritize this file
-return int(score)
+    return int(score)
 
 
 def get_media_info(item):
