@@ -13,7 +13,6 @@ base_config = {
     'PLEX_SERVER': 'https://plex.your-server.com',
     'PLEX_TOKEN': '',
     'PLEX_LIBRARIES': {
-    'PLEX_VERSIONS_PATH': '/path/to/plex/versions',  # Update this path as needed
 },
     'AUDIO_CODEC_SCORES': {'Unknown': 0, 'wmapro': 200, 'mp2': 500, 'mp3': 1000, 'ac3': 1000, 'dca': 2000, 'pcm': 2500,
                            'flac': 2500, 'dca-ma': 4000, 'truehd': 4500, 'aac': 1000, 'eac3': 1250},
@@ -66,7 +65,7 @@ def prefilled_default_config(configs):
         '*.avi': -1000,
         '*.ts': -1000,
         '*.vob': -5000
-        '*.mp4': 10000
+        '*.mp4': 2000
     }
 
     return default_config
@@ -84,7 +83,7 @@ def build_config():
 
     # Get Credentials for plex.tv
     user = input("Plex Username: ")
-    password = getpass('Plex Password (If using 2FA, include the Authenticator Code at the end of your password): ')
+    password = getpass('Plex Password: ')
 
     # Get choice for Auto Deletion
     auto_del = input("Auto Delete duplicates? [y/n]: ")
