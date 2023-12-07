@@ -64,7 +64,7 @@ def prefilled_default_config(configs):
         '*dvd*': -1000,
         '*.avi': -1000,
         '*.ts': -1000,
-        '*.vob': -5000
+        '*.vob': -5000,
         '*.mp4': 2000
     }
 
