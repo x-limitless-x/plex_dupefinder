@@ -70,6 +70,10 @@ def get_section_type(plex_section_name):
     return 'episode' if plex_section_type == 'show' else 'movie'
 
 
+
+# Add this function to check for "Plex Versions" path
+def is_plex_versions_path(file_path):
+    return cfg.get('PLEX_VERSIONS_PATH', '') in file_path
 def get_score(media_info):
     score = 0
     # score audio codec
@@ -115,7 +119,11 @@ def get_score(media_info):
     if cfg['SCORE_FILESIZE']:
         score += int(media_info['file_size']) / 100000
         log.debug("Added %d to score for total file size", int(media_info['file_size']) / 100000)
-    return int(score)
+    
+    # Prioritize "Plex Versions" path
+    if any(is_plex_versions_path(file) for file in media_info['file']):
+        score += 100000  # Add a very high score to prioritize this file
+return int(score)
 
 
 def get_media_info(item):
