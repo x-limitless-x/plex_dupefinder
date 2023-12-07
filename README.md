@@ -163,7 +163,7 @@ _Note: Steps below are for Debian-based distros (other operating systems will re
   },
   "PLEX_LIBRARIES": [
     "Movies",
-    "TV"
+    "TV Shows"
   ],
   "PLEX_SERVER": "https://plex.your-server.com",
   "PLEX_TOKEN": "",
