@@ -142,6 +142,7 @@ _Note: Steps below are for Debian-based distros (other operating systems will re
   "FIND_DUPLICATE_FILEPATHS_ONLY": false,
   "FILENAME_SCORES": {
     "*.avi": -1000,
+    "*.mp4": 5000,
     "*.ts": -1000,
     "*.vob": -5000,
     "*1080p*BluRay*": 15000,
