@@ -212,10 +212,65 @@ def delete_item(show_key, media_id):
     if requests.delete(delete_url, headers={'X-Plex-Token': cfg['PLEX_TOKEN']}).status_code == 200:
         print("\t\tDeleted media item: %r" % media_id)
     else:
-            # Display information about the media items
-            headers, data = build_tabulated(parts, {i+1: pid for i, pid in enumerate(parts)})
-            print(tabulate(data, headers=headers))
-else:
+        print("\t\tError deleting media item: %r" % media_id)
+
+
+############################################################
+# MISC METHODS
+############################################################
+
+decision_filename = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), 'decisions.log')
+
+
+def write_decision(title=None, keeping=None, removed=None):
+    lines = []
+    if title:
+        lines.append('\nTitle    : %s\n' % title)
+    if keeping:
+        lines.append('\tKeeping  : %r\n' % keeping)
+    if removed:
+        lines.append('\tRemoving : %r\n' % removed)
+
+    with open(decision_filename, 'a') as fp:
+        fp.writelines(lines)
+    return
+
+
+def should_skip(files):
+    return any(skip_item in str(files_item) for files_item, skip_item in itertools.product(files, cfg['SKIP_LIST']))
+
+
+def millis_to_string(millis):
+    """ reference: https://stackoverflow.com/a/35990338 """
+    try:
+        seconds = (millis / 1000) % 60
+        seconds = int(seconds)
+        minutes = (millis / (1000 * 60)) % 60
+        minutes = int(minutes)
+        hours = (millis / (1000 * 60 * 60)) % 24
+        return "%02d:%02d:%02d" % (hours, minutes, seconds)
+    except Exception:
+        log.exception(f"Exception occurred converting {millis} millis to readable string: ")
+    return "%d milliseconds" % millis
+
+
+def bytes_to_string(size_bytes):
+    """
+    reference: https://stackoverflow.com/a/6547474
+    """
+    try:
+        if size_bytes == 1:
+            return "1 byte"
+        suffixes_table = [('bytes', 0), ('KB', 0), ('MB', 1), ('GB', 2), ('TB', 2), ('PB', 2)]
+
+        num = float(size_bytes)
+        for suffix, precision in suffixes_table:
+            if num < 1024.0:
+                break
+            num /= 1024.0
+        if precision == 0:
+            formatted_size = "%d" % num
+        else:
             formatted_size = str(round(num, ndigits=precision))
         return f"{formatted_size} {suffix}"
     except Exception:
@@ -394,7 +449,11 @@ if __name__ == "__main__":
                         keep_score = part_info['score']
                         keep_id = media_id
 
-            if keep_id:
+            
+            # Display information about the media items
+            headers, data = build_tabulated(parts, {i+1: pid for i, pid in enumerate(parts)})
+            print(tabulate(data, headers=headers))
+if keep_id:
                 # delete other items
                 write_decision(title=item)
                 for media_id, part_info in parts.items():
