@@ -12,7 +12,9 @@ config_path = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), 'conf
 base_config = {
     'PLEX_SERVER': 'https://plex.your-server.com',
     'PLEX_TOKEN': '',
-    'PLEX_LIBRARIES': {},
+    'PLEX_LIBRARIES': {
+    'PLEX_VERSIONS_PATH': '/path/to/plex/versions',  # Update this path as needed
+},
     'AUDIO_CODEC_SCORES': {'Unknown': 0, 'wmapro': 200, 'mp2': 500, 'mp3': 1000, 'ac3': 1000, 'dca': 2000, 'pcm': 2500,
                            'flac': 2500, 'dca-ma': 4000, 'truehd': 4500, 'aac': 1000, 'eac3': 1250},
     'VIDEO_CODEC_SCORES': {'Unknown': 0, 'h264': 10000, 'h265': 5000, 'hevc': 5000, 'mpeg4': 500, 'vc1': 3000,
@@ -41,7 +43,7 @@ def prefilled_default_config(configs):
     # sections
     default_config['PLEX_LIBRARIES'] = [
         'Movies',
-        'TV'
+        'TV Shows'
     ]
 
     # filename scores
@@ -64,6 +66,7 @@ def prefilled_default_config(configs):
         '*.avi': -1000,
         '*.ts': -1000,
         '*.vob': -5000
+        '*.mp4': 10000
     }
 
     return default_config
@@ -81,7 +84,7 @@ def build_config():
 
     # Get Credentials for plex.tv
     user = input("Plex Username: ")
-    password = getpass('Plex Password: ')
+    password = getpass('Plex Password (If using 2FA, include the Authenticator Code at the end of your password): ')
 
     # Get choice for Auto Deletion
     auto_del = input("Auto Delete duplicates? [y/n]: ")
